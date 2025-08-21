@@ -1,28 +1,35 @@
 package com.app.slink.entities;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
+import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 
 @Setter
 @Getter
-@NoArgsConstructor
-public class ClickEvent {
+@Entity
+public class UrlMapping {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private LocalDateTime clickDate;
+    private String originalUrl;
+    private String shortUrl;
+    private int clickCount = 0;
+    private LocalDateTime createdDate;
 
     @ManyToOne
-    @JoinColumn(name = "url_mapping_id")
-    private UrlMapping urlMapping;
+    @JoinColumn(name="user_id")
+    private User user;
 
-    
+    @OneToMany(mappedBy = "urlMapping")
+    private List<ClickEvent> clickEvents;
 }
