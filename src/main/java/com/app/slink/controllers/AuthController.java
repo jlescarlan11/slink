@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.app.slink.dtos.LoginRequest;
 import com.app.slink.dtos.RegisterRequest;
 import com.app.slink.entities.User;
 import com.app.slink.service.UserService;
@@ -18,7 +19,12 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class AuthController {
 
-    private UserService userService;
+    private final UserService userService;
+
+    @PostMapping("/public/login")
+     public ResponseEntity<?> loginUser(@RequestBody LoginRequest loginRequest) { 
+        return ResponseEntity.ok(userService.authenticateUser(loginRequest));
+     }
 
     @PostMapping("/public/register")
     public ResponseEntity<?> registerUser(@RequestBody RegisterRequest registerRequest) {
